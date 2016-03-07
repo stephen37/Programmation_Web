@@ -8,6 +8,7 @@ function Cell(model) {
     this.bold = false;
     this.italic = false;
     this.underline = false;
+    this.backgroundColored = false;
 }
 
 
@@ -79,6 +80,36 @@ Cell.prototype = {
             cell.update(visited);
         });
 
+    },
+
+    isBold: function () {
+        return this.bold;
+    },
+    isItalic: function () {
+        return this.italic;
+    },
+    isUnderlined: function () {
+        return this.underline;
+    },
+    isBackgroundColored: function () {
+        return this.backgroundColored;
+    },
+    setBold: function () {
+        this.isBold() ? this.bold = false : this.bold = true;
+        this.update(new Set());
+    },
+    setUnderline: function () {
+        this.isUnderlined() ? this.underline = false : this.underline = true;
+        this.update(new Set());
+    },
+    setItalic: function () {
+        this.isItalic() ? this.italic = false : this.italic = true;
+        this.update(new Set());
+    },
+    setBackgroundColor: function () {
+        this.isBackgroundColored() ? this.backgroundColored = false : this.backgroundColored = true;
+        this.update(new Set());
     }
+
 
 }

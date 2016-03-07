@@ -63,10 +63,49 @@ var TableController = function (view) {
         }
     };
 
+    /*
+     Listeners for the buttons Italic, Bold and Underline
+     */
+    function buttonBoldClickHandler(e) {
+        var td = this_.selection;
+        if (!td) return;
+        var cell = view.model.getCell(td.col, td.row);
+        cell.setBold();
+    };
+
+    function buttonUnderlineClickHandler(e) {
+        var td = this_.selection;
+        if (!td) return;
+        var cell = view.model.getCell(td.col, td.row);
+        cell.setUnderline();
+    };
+    function buttonItalicClickHandler(e) {
+        var td = this_.selection;
+        if (!td) return;
+        var cell = view.model.getCell(td.col, td.row);
+        cell.setItalic();
+    };
+
+
+
+    view.buttonBold.addEventListener("click", buttonBoldClickHandler);
+    view.buttonItalic.addEventListener("click", buttonItalicClickHandler);
+    view.buttonUnderline.addEventListener("click", buttonUnderlineClickHandler);
+
+
+    function buttonBackgroundColorClickHandler(e) {
+        var td = this_.selection;
+        if (!td) return;
+        var cell = view.model.getCell(td.col, td.row);
+        cell.setBackgroundColor("FFAABB");
+    }
+
+    view.buttonBackgroundColor.addEventListener("click", buttonBackgroundColorClickHandler);
     view.button.addEventListener("click", buttonClickHandler);
     view.input.addEventListener("keypress", function (e) {
         if (e.keyCode == 13) //[enter]
             buttonClickHandler(e);
     });
+
 
 }

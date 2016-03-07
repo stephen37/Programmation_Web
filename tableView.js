@@ -18,6 +18,11 @@ var TableView = function (id, tableModel) {
     this.button.innerHTML = "&#10003;";
     this.div.appendChild(this.button);
 
+
+    /*
+    Buttons for the style of a cell
+     */
+
     //We add the bold button, right next to the validate button
     this.buttonBold = document.createElement("button");
     this.buttonBold.id = "button-bold";
@@ -35,6 +40,12 @@ var TableView = function (id, tableModel) {
     this.buttonItalic.id = "button-italic";
     this.buttonItalic.className = "button-style";
     this.div.appendChild(this.buttonItalic);
+
+    //We add the background color button, right next to the italic button
+    this.buttonBackgroundColor = document.createElement("button");
+    this.buttonBackgroundColor.id = "button-background-color";
+    this.buttonBackgroundColor.className = "button-style";
+    this.div.appendChild(this.buttonBackgroundColor);
 
     this.table = document.createElement("table");
     this.div.appendChild(this.table);
@@ -85,6 +96,30 @@ TableView.prototype.createTable = function () {
 
             td.notify = function (cell) {
                 td.firstChild.nodeValue = cell.getValue();
+
+                if (cell.isBold()) {
+                    td.style.fontWeight = "bold";
+                } else {
+                    td.style.fontWeight = "normal";
+                }
+
+                if (cell.isUnderlined()) {
+                    td.style.textDecoration = "underline";
+                } else {
+                    td.style.textDecoration = "none";
+                }
+
+                if (cell.isItalic()) {
+                    td.style.fontStyle = "italic";
+                } else {
+                    td.style.fontStyle = "normal";
+                }
+                if (cell.isBackgroundColored()) {
+                    td.style.backgroundColor = "red";
+                }else {
+                    td.style.backgroundColor = "white";
+                }
+
             };
 
             td.isSelected = function () {

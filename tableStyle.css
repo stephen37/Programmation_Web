@@ -63,3 +63,7 @@
 #button-italic {
     background-image: url("./img/ic_format_italic_black_24dp_2x.png");
 }
+
+#button-background-color {
+    background-image: url("./img/ic_format_color_fill_black_24dp_2x.png");
+}
