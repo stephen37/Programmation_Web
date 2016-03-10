@@ -7,7 +7,7 @@ var TableView = function (id, tableModel) {
 
     var target = document.getElementById(id);
     if (target)
-        target.appendChild(this.div);
+    target.appendChild(this.div);
 
 
     this.input = document.createElement("input");
@@ -21,7 +21,7 @@ var TableView = function (id, tableModel) {
 
     /*
     Buttons for the style of a cell
-     */
+    */
 
     //We add the bold button, right next to the validate button
     this.buttonBold = document.createElement("button");
@@ -42,13 +42,20 @@ var TableView = function (id, tableModel) {
     this.div.appendChild(this.buttonItalic);
 
     //We add the background color button, right next to the italic button
-    this.buttonBackgroundColor = document.createElement("button");
-    this.buttonBackgroundColor.id = "button-background-color";
-    this.buttonBackgroundColor.className = "button-style";
+    this.buttonBackgroundColor = document.createElement("input");
+    this.input.type = "text";
+    this.buttonBackgroundColor.id = "showPaletteOnly";
+    this.buttonBackgroundColor.class = "my-color";
     this.div.appendChild(this.buttonBackgroundColor);
+    //TODO : Résoudre le problème d'affichage du color picker
+    console.log("dsqdsqd");
+    $(".my-color").spectrum({
+        color: "#f00"
+    });
 
     this.table = document.createElement("table");
     this.div.appendChild(this.table);
+    //document.getElementById("button-background-color").value = "ab2567";
 };
 
 TableView.prototype.createTable = function () {
@@ -59,7 +66,7 @@ TableView.prototype.createTable = function () {
     //Clear the table
 
     for (var c = table.firstChild; c != null; c = c.nextSibling)
-        table.removeChild(c);
+    table.removeChild(c);
 
 
     var thead = document.createElement("thead");
@@ -128,9 +135,9 @@ TableView.prototype.createTable = function () {
 
             td.select = function (b) {
                 if (b)
-                    this.classList.add("selected");
+                this.classList.add("selected");
                 else
-                    this.classList.remove("selected");
+                this.classList.remove("selected");
             };
 
             var text = document.createTextNode(cell.getValue());

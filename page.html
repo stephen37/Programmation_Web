@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
+<head>
     <title>SpreadSheet</title>
-    <link rel="stylesheet" type="text/css" href="tableStyle.css">
-    <meta charset="UTF-8"></meta>
+    <link rel="stylesheet" type="text/css" href="css/tableStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/spectrum.css">
+
+    <meta charset="UTF-8"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
     <script type="text/javascript" src="lexer.js"></script>
     <script type="text/javascript" src="formula.js"></script>
     <script type="text/javascript" src="cell.js"></script>
@@ -12,22 +16,26 @@
     <script type="text/javascript" src="tableView.js"></script>
     <script type="text/javascript" src="tableController.js"></script>
 
-    <script type="text/javascript">
-      function init () {
-      var t = new TableModel(50, 50);
-      var v = new TableView("test", t);
-      v.createTable();
-      var c = new TableController(v);
-      };
+    <!-- Script for the color picker -->
+    <script type="text/javascript" src="spectrum.js"></script>
 
-      window.addEventListener("load", init);
+
+    <script type="text/javascript">
+    function init() {
+        var t = new TableModel(50, 50);
+        var v = new TableView("test", t);
+        v.createTable();
+        var c = new TableController(v);
+    };
+
+    window.addEventListener("load", init);
     </script>
 
 
+</head>
+<body>
+    <div id="test"></div>
 
-  </head>
-  <body>
-    <div id="test" ></div>
 
-  </body>
+</body>
 </html>
