@@ -145,7 +145,7 @@ var TableController = function (view) {
     view.buttonTextColor.addEventListener("input", buttonTextColorClickHandler);
     view.buttonBorderDotted.addEventListener("click", buttonBorderStyleClickHandler);
     view.buttonBorderDashed.addEventListener("click", buttonBorderStyleClickHandler);
-    view.buttonBorderSolid.addEventListener("click", buttonBorderStyleClickHandler);
+    view.buttonBorderSolid.addEventListener("click", buttonBorderStyleClickHandler); 
 
     view.button.addEventListener("click", buttonClickHandler);
     view.input.addEventListener("keypress", function (e) {
