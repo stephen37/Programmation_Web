@@ -9,6 +9,9 @@ function Cell(model) {
     this.italic = false;
     this.underline = false;
     this.backgroundColored = false;
+    this.backgroundColor = "";
+    this.textColor = "";
+    this.borderStyle = "";
 }
 
 
@@ -72,7 +75,8 @@ Cell.prototype = {
             throw "Cyclic definition of cell " + this.address.split(',').join("");
 
         visited.add(this.address);
-        this.setValue(this.formula.eval());
+        if (this.formula != null)
+            this.setValue(this.formula.eval());
         var model = this.model;
         this.forward.forEach(function (k, v, s) {
             var coords = v.split(',');
@@ -106,10 +110,26 @@ Cell.prototype = {
         this.isItalic() ? this.italic = false : this.italic = true;
         this.update(new Set());
     },
-    setBackgroundColor: function () {
-        this.isBackgroundColored() ? this.backgroundColored = false : this.backgroundColored = true;
+    setBackgroundColor: function (color) {
+        this.backgroundColor = color;
         this.update(new Set());
+    },
+    getBackgroundColor: function () {
+        return this.backgroundColor;
+    },
+    setTextColor: function (color) {
+        this.textColor = color;
+        this.update(new Set());
+    },
+    getTextColor : function () {
+        return this.textColor;
+    },
+    setBorderStyle : function(style) {
+        this.borderStyle = style;
+        this.update(new Set());
+    },
+
+    getBorderStyle : function () {
+        return this.borderStyle;
     }
-
-
-}
+};

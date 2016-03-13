@@ -1,3 +1,10 @@
+var borderStyleEnum = {
+    DOTTED: "dotted",
+    DASHED: "dashed",
+    SOLID: "solid",
+    NONE: "none"
+};
+
 var TableController = function (view) {
 
     var this_ = this;
@@ -86,21 +93,60 @@ var TableController = function (view) {
         cell.setItalic();
     };
 
-
-
-    view.buttonBold.addEventListener("click", buttonBoldClickHandler);
-    view.buttonItalic.addEventListener("click", buttonItalicClickHandler);
-    view.buttonUnderline.addEventListener("click", buttonUnderlineClickHandler);
-
-
     function buttonBackgroundColorClickHandler(e) {
         var td = this_.selection;
         if (!td) return;
         var cell = view.model.getCell(td.col, td.row);
-        cell.setBackgroundColor("FFAABB");
+        cell.setBackgroundColor(view.buttonBackgroundColor.value);
     }
 
-    view.buttonBackgroundColor.addEventListener("click", buttonBackgroundColorClickHandler);
+    function buttonTextColorClickHandler(e) {
+        var td = this_.selection;
+        if (!td) return;
+        var cell = view.model.getCell(td.col, td.row);
+        cell.setTextColor(view.buttonTextColor.value);
+    }
+
+    function buttonBorderStyleClickHandler(event) {
+        event = event || window.event;
+        event.target = event.target || event.srcElement;
+
+        var element = event.target;
+
+        if (element.nodeName === "BUTTON" && element) {
+            var td = this_.selection;
+            if (!td) return;
+            var cell = view.model.getCell(td.col, td.row);
+
+            switch (element.id) {
+                case "button-borders-dotted":
+                    cell.setBorderStyle(borderStyleEnum.DOTTED)
+                    break;
+                case "button-borders-dashed" :
+                    cell.setBorderStyle(borderStyleEnum.DASHED);
+                    break;
+                case "button-borders-solid" :
+                    cell.setBorderStyle(borderStyleEnum.SOLID);
+                    break;
+                case "button-borders-none" :
+                    cell.setBorderStyle(borderStyleEnum.NONE);
+                    break;
+                default :
+                    cell.setBorderStyle(borderStyleEnum.SOLID);
+                    break;
+            }
+        }
+    }
+
+    view.buttonBold.addEventListener("click", buttonBoldClickHandler);
+    view.buttonItalic.addEventListener("click", buttonItalicClickHandler);
+    view.buttonUnderline.addEventListener("click", buttonUnderlineClickHandler);
+    view.buttonBackgroundColor.addEventListener("input", buttonBackgroundColorClickHandler);
+    view.buttonTextColor.addEventListener("input", buttonTextColorClickHandler);
+    view.buttonBorderDotted.addEventListener("click", buttonBorderStyleClickHandler);
+    view.buttonBorderDashed.addEventListener("click", buttonBorderStyleClickHandler);
+    view.buttonBorderSolid.addEventListener("click", buttonBorderStyleClickHandler);
+
     view.button.addEventListener("click", buttonClickHandler);
     view.input.addEventListener("keypress", function (e) {
         if (e.keyCode == 13) //[enter]
@@ -108,4 +154,4 @@ var TableController = function (view) {
     });
 
 
-}
+};

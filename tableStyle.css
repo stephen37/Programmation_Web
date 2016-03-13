@@ -53,17 +53,25 @@
 }
 
 #button-bold {
-    background-image: url("./img/ic_format_bold_black_24dp_2x.png");
+    background: url("./img/ic_format_bold_black_24dp_2x.png");
 }
 
 #button-underline {
-    background-image: url("./img/ic_format_underlined_black_24dp_2x.png");
+    background: url("./img/ic_format_underlined_black_24dp_2x.png");
 }
 
 #button-italic {
-    background-image: url("./img/ic_format_italic_black_24dp_2x.png");
+    background: url("./img/ic_format_italic_black_24dp_2x.png");
 }
 
 #button-background-color {
-    background-image: url("./img/ic_format_color_fill_black_24dp_2x.png");
+    background: url("./img/ic_format_color_fill_black_24dp_2x.png");
+}
+
+#button-borders-dotted {
+    background: url("./img/ic_borders/ic_line_style_black_24dp_2x.png");
+}
+
+#button-borders-dashed {
+    background: url("./img/ic_format_bold_black_24dp_2x.png");
 }

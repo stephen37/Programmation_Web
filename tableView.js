@@ -1,3 +1,10 @@
+var borderStyleEnum = {
+    DOTTED: "dotted",
+    DASHED: "dashed",
+    SOLID: "solid",
+    NONE: "none"
+};
+
 var TableView = function (id, tableModel) {
     this.model = tableModel;
 
@@ -7,7 +14,7 @@ var TableView = function (id, tableModel) {
 
     var target = document.getElementById(id);
     if (target)
-    target.appendChild(this.div);
+        target.appendChild(this.div);
 
 
     this.input = document.createElement("input");
@@ -20,8 +27,8 @@ var TableView = function (id, tableModel) {
 
 
     /*
-    Buttons for the style of a cell
-    */
+     Buttons that change the style of a cell
+     */
 
     //We add the bold button, right next to the validate button
     this.buttonBold = document.createElement("button");
@@ -43,19 +50,39 @@ var TableView = function (id, tableModel) {
 
     //We add the background color button, right next to the italic button
     this.buttonBackgroundColor = document.createElement("input");
-    this.input.type = "text";
-    this.buttonBackgroundColor.id = "showPaletteOnly";
-    this.buttonBackgroundColor.class = "my-color";
+    this.buttonBackgroundColor.setAttribute("type", "color");
     this.div.appendChild(this.buttonBackgroundColor);
-    //TODO : Résoudre le problème d'affichage du color picker
-    console.log("dsqdsqd");
-    $(".my-color").spectrum({
-        color: "#f00"
-    });
+
+    //We add the text color button, right next to the background button
+    this.buttonTextColor = document.createElement("input");
+    this.buttonTextColor.setAttribute("type", "color");
+    this.div.appendChild(this.buttonTextColor);
+
+
+    /*
+     *
+     *  Here is the group of buttons that will handle the borders of the cells.
+     *
+     *
+     */
+    this.buttonBorderDotted = document.createElement("button");
+    this.buttonBorderDotted.id = "button-borders-dotted";
+    this.buttonBorderDotted.className = "button-style";
+    this.div.appendChild(this.buttonBorderDotted);
+
+    this.buttonBorderDashed = document.createElement("button");
+    this.buttonBorderDashed.id = "button-borders-dashed";
+    this.buttonBorderDashed.className = "button-style";
+    this.div.appendChild(this.buttonBorderDashed);
+
+    this.buttonBorderSolid = document.createElement("button");
+    this.buttonBorderSolid.id = "button-borders-solid";
+    this.buttonBorderSolid.className = "button-style";
+    this.div.appendChild(this.buttonBorderSolid);
+
 
     this.table = document.createElement("table");
     this.div.appendChild(this.table);
-    //document.getElementById("button-background-color").value = "ab2567";
 };
 
 TableView.prototype.createTable = function () {
@@ -66,7 +93,7 @@ TableView.prototype.createTable = function () {
     //Clear the table
 
     for (var c = table.firstChild; c != null; c = c.nextSibling)
-    table.removeChild(c);
+        table.removeChild(c);
 
 
     var thead = document.createElement("thead");
@@ -121,10 +148,26 @@ TableView.prototype.createTable = function () {
                 } else {
                     td.style.fontStyle = "normal";
                 }
-                if (cell.isBackgroundColored()) {
-                    td.style.backgroundColor = "red";
-                }else {
-                    td.style.backgroundColor = "white";
+
+                td.style.background = cell.getBackgroundColor();
+                td.style.color = cell.getTextColor();
+
+                if (cell.getBorderStyle() != "") {
+                    switch (cell.getBorderStyle()) {
+                        case borderStyleEnum.DOTTED :
+                            td.style.border = "dotted 1px";
+                            break;
+                        case borderStyleEnum.DASHED :
+                            td.style.border = "dashed 1px";
+                            break;
+                        case borderStyleEnum.SOLID :
+                            td.style.border = "solid 1px";
+
+                            break;
+                        default :
+                            console.error("Unknow value for the border style");
+                            break;
+                    }
                 }
 
             };
@@ -135,9 +178,9 @@ TableView.prototype.createTable = function () {
 
             td.select = function (b) {
                 if (b)
-                this.classList.add("selected");
+                    this.classList.add("selected");
                 else
-                this.classList.remove("selected");
+                    this.classList.remove("selected");
             };
 
             var text = document.createTextNode(cell.getValue());
