@@ -16,7 +16,6 @@ function TableModel(w, h) {
 TableModel.prototype =
     (function () {
 
-
         var colToIdx = function (s) {
             var res = 0;
             for (var i = 0; i < s.length; i++) {

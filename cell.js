@@ -53,8 +53,6 @@ Cell.prototype = {
                     cell.forward.delete(address);
             });
         }
-        ;
-
 
         var cellRefs = f.getCellRefs();
         cellRefs.forEach(function (k, v, s) {

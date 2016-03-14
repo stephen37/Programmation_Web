@@ -60,10 +60,7 @@ var TableView = function (id, tableModel) {
 
 
     /*
-     *
      *  Here is the group of buttons that will handle the borders of the cells.
-     *
-     *
      */
     this.buttonBorderDotted = document.createElement("button");
     this.buttonBorderDotted.id = "button-borders-dotted";
@@ -162,7 +159,6 @@ TableView.prototype.createTable = function () {
                             break;
                         case borderStyleEnum.SOLID :
                             td.style.border = "solid 1px";
-
                             break;
                         default :
                             console.error("Unknow value for the border style");
@@ -181,6 +177,13 @@ TableView.prototype.createTable = function () {
                     this.classList.add("selected");
                 else
                     this.classList.remove("selected");
+            };
+
+            td.multipleSelection = function (b) {
+                if (b)
+                    this.classList.add("multipleSelection");
+                else
+                    this.classList.remove("multipleSelection");
             };
 
             var text = document.createTextNode(cell.getValue());

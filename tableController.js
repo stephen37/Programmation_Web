@@ -19,9 +19,17 @@ var TableController = function (view) {
 
 
     this_.selection = null;
+    this_.multipleSelection = null;
+    this_.cellSelected = null;
+    this_.tdOrigin = null;
 
+
+    /*
+     * This is where the click listener for the mouse is handle. Here we can select multiples cases with the mouse.
+     */
 
     function tdClickHandler(e) {
+
 
         var td = findTD(e.target);
 
@@ -29,12 +37,14 @@ var TableController = function (view) {
             this_.selection = null;
             return;
         }
-        ;
 
         if (this_.selection)
             this_.selection.select(false);
         this_.selection = td;
         this_.selection.select(true);
+        if (!(e.metaKey || e.ctrlKey))
+            this_.tdOrigin = td; // We update the original cell only if we don't click on the ctrl or meta key (Mac OS).
+
 
         var cell = view.model.getCell(td.col, td.row);
         var form = cell.getFormula();
@@ -47,6 +57,7 @@ var TableController = function (view) {
         }, 100);
 
     };
+
 
     view.table.addEventListener("mousedown", tdClickHandler);
 
@@ -138,6 +149,12 @@ var TableController = function (view) {
         }
     }
 
+
+    /*
+     *
+     * The listeners for the style buttons.
+     *
+     */
     view.buttonBold.addEventListener("click", buttonBoldClickHandler);
     view.buttonItalic.addEventListener("click", buttonItalicClickHandler);
     view.buttonUnderline.addEventListener("click", buttonUnderlineClickHandler);
@@ -153,5 +170,65 @@ var TableController = function (view) {
             buttonClickHandler(e);
     });
 
+
+    var colToIdx = function (s) {
+        var res = 0;
+        for (var i = 0; i < s.length; i++) {
+            res *= 26;
+            res += (s.charCodeAt(i) - 64);
+        }
+        return (res - 1);
+    };
+
+    var idxToCol = function (i) {
+        var res = "";
+        var n = i + 1;
+        var c = 0;
+        while (n > 0) {
+            c = n % 26;
+            c = c == 0 ? 26 : c;
+            res = String.fromCharCode(c + 64) + res;
+            n = Math.trunc((n - c) / 26);
+        }
+        ;
+        return res;
+
+    };
+
+    view.table.addEventListener("click", function (e) {
+        var td = findTD(e.target);
+
+        if (!td) {
+            this_.multipleSelection = null;
+            return;
+        }
+        if (td.isSelected()) {
+            console.log("td origin : " + this_.tdOrigin.col + "" + this_.tdOrigin.row);
+            if (e.metaKey || e.ctrlKey) {
+
+                var cell = view.model.getCell(td.col, td.row);
+                var i = colToIdx(this_.tdOrigin.col);
+
+
+                for (i; i <= colToIdx(td.col); i++) {
+                    var j = this_.tdOrigin.row - 0; // Convert the string corresponding to a row to a number.
+                    for (j; j <= td.row; j++) {
+                        console.log("i = " + i + " j = " + j);
+                        var cellTmp = view.model.getCell(idxToCol(i), j);
+                        cellTmp.setBackgroundColor("#CCFFFF");
+                    }
+                }
+                var form = cell.getFormula();
+                view.input.value = form ? '=' + form.toString() : "";
+
+                //focus the input.
+
+                setTimeout(function () {
+                    view.input.focus();
+                }, 100);
+
+            }
+        }
+    })
 
 };

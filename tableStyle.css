@@ -43,6 +43,10 @@
     background: #ddffdd;
 }
 
+#spreadsheet-div td.multipleSelection {
+    background: #bbffbb;
+}
+
 .button-style {
     margin-left: 5px;
     background-color: transparent;
