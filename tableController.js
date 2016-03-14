@@ -208,7 +208,7 @@ var TableController = function (view) {
 
                 var cell = view.model.getCell(td.col, td.row);
                 var i = colToIdx(this_.tdOrigin.col);
-
+                // TODO : I need to add all the new cells in a list in order to modify their styles all at once !! .
 
                 for (i; i <= colToIdx(td.col); i++) {
                     var j = this_.tdOrigin.row - 0; // Convert the string corresponding to a row to a number.
