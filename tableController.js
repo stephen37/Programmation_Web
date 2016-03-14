@@ -22,6 +22,7 @@ var TableController = function (view) {
     this_.multipleSelection = null;
     this_.cellSelected = null;
     this_.tdOrigin = null;
+    this_.listSelectedCells = [];
 
 
     /*
@@ -42,8 +43,18 @@ var TableController = function (view) {
             this_.selection.select(false);
         this_.selection = td;
         this_.selection.select(true);
-        if (!(e.metaKey || e.ctrlKey))
-            this_.tdOrigin = td; // We update the original cell only if we don't click on the ctrl or meta key (Mac OS).
+        if (!(e.metaKey || e.ctrlKey)) {
+            this_.tdOrigin = td;
+            for (var i = 0; i < this_.listSelectedCells.length; i++) {
+                //if (this_.listSelectedCells[i].getOriginalBackgroundColor() == "#CCFFFF") {
+                //TODO : I have to handle the background color change when we unselect the group of cells.
+                this_.listSelectedCells[i].setBackgroundColor("#FFFFFF");
+                //}
+            }
+            this_.listSelectedCells = []; // We update the original cell only if we don't click on the ctrl or meta key (Mac OS).
+        } else {
+            console.log("on n'a pas appuyé sur ctrl");
+        }
 
 
         var cell = view.model.getCell(td.col, td.row);
@@ -88,34 +99,65 @@ var TableController = function (view) {
         var td = this_.selection;
         if (!td) return;
         var cell = view.model.getCell(td.col, td.row);
-        cell.setBold();
+        if (this_.listSelectedCells.length != 0) {
+            for (var i = 0; i < this_.listSelectedCells.length; i++) {
+                this_.listSelectedCells[i].setBold();
+            }
+        } else {
+            cell.setBold();
+        }
+
     };
 
     function buttonUnderlineClickHandler(e) {
         var td = this_.selection;
         if (!td) return;
         var cell = view.model.getCell(td.col, td.row);
-        cell.setUnderline();
+        if (this_.listSelectedCells.length != 0) {
+            for (var i = 0; i < this_.listSelectedCells.length; i++) {
+                this_.listSelectedCells[i].setUnderline();
+            }
+        } else {
+            cell.setUnderline();
+        }
     };
     function buttonItalicClickHandler(e) {
         var td = this_.selection;
         if (!td) return;
         var cell = view.model.getCell(td.col, td.row);
-        cell.setItalic();
+        if (this_.listSelectedCells.length != 0) {
+            for (var i = 0; i < this_.listSelectedCells.length; i++) {
+                this_.listSelectedCells[i].setItalic();
+            }
+        } else {
+            cell.setItalic();
+        }
     };
 
     function buttonBackgroundColorClickHandler(e) {
         var td = this_.selection;
         if (!td) return;
         var cell = view.model.getCell(td.col, td.row);
-        cell.setBackgroundColor(view.buttonBackgroundColor.value);
+        if (this_.listSelectedCells.length != 0) {
+            for (var i = 0; i < this_.listSelectedCells.length; i++) {
+                this_.listSelectedCells[i].setBackgroundColor(view.backgroundColor.value);
+            }
+        } else {
+            cell.setBackgroundColor(view.buttonBackgroundColor.value);
+        }
     }
 
     function buttonTextColorClickHandler(e) {
         var td = this_.selection;
         if (!td) return;
         var cell = view.model.getCell(td.col, td.row);
-        cell.setTextColor(view.buttonTextColor.value);
+        if (this_.listSelectedCells.length != 0) {
+            for (var i = 0; i < this_.listSelectedCells.length; i++) {
+                this_.listSelectedCells[i].setTextColor(view.buttonTextColor.value);
+            }
+        } else {
+            cell.setTextColor(view.buttonTextColor.value);
+        }
     }
 
     function buttonBorderStyleClickHandler(event) {
@@ -129,18 +171,44 @@ var TableController = function (view) {
             if (!td) return;
             var cell = view.model.getCell(td.col, td.row);
 
+
             switch (element.id) {
                 case "button-borders-dotted":
-                    cell.setBorderStyle(borderStyleEnum.DOTTED)
+                    if (this_.listSelectedCells.length != 0) {
+
+                        for (var i = 0; i < this_.listSelectedCells.length; i++) {
+                            this_.listSelectedCells[i].setBorderStyle(borderStyleEnum.DOTTED);
+                        }
+                    } else {
+                        cell.setBorderStyle(borderStyleEnum.DOTTED);
+                    }
                     break;
                 case "button-borders-dashed" :
-                    cell.setBorderStyle(borderStyleEnum.DASHED);
+                    if (this_.listSelectedCells.length != 0) {
+                        for (var i = 0; i < this_.listSelectedCells.length; i++) {
+                            this_.listSelectedCells[i].setBorderStyle(borderStyleEnum.DASHED);
+                        }
+                    } else {
+                        cell.setBorderStyle(borderStyleEnum.DASHED);
+                    }
                     break;
                 case "button-borders-solid" :
-                    cell.setBorderStyle(borderStyleEnum.SOLID);
+                    if (this_.listSelectedCells.length != 0) {
+                        for (var i = 0; i < this_.listSelectedCells.length; i++) {
+                            this_.listSelectedCells[i].setBorderStyle(borderStyleEnum.SOLID);
+                        }
+                    } else {
+                        cell.setBorderStyle(borderStyleEnum.SOLID);
+                    }
                     break;
                 case "button-borders-none" :
-                    cell.setBorderStyle(borderStyleEnum.NONE);
+                    if (this_.listSelectedCells.length != 0) {
+                        for (var i = 0; i < this_.listSelectedCells.length; i++) {
+                            this_.listSelectedCells[i].setBorderStyle(borderStyleEnum.NONE);
+                        }
+                    } else {
+                        cell.setBorderStyle(borderStyleEnum.NONE);
+                    }
                     break;
                 default :
                     cell.setBorderStyle(borderStyleEnum.SOLID);
@@ -205,17 +273,17 @@ var TableController = function (view) {
         if (td.isSelected()) {
             console.log("td origin : " + this_.tdOrigin.col + "" + this_.tdOrigin.row);
             if (e.metaKey || e.ctrlKey) {
-
                 var cell = view.model.getCell(td.col, td.row);
                 var i = colToIdx(this_.tdOrigin.col);
-                // TODO : I need to add all the new cells in a list in order to modify their styles all at once !! .
-
+                
                 for (i; i <= colToIdx(td.col); i++) {
                     var j = this_.tdOrigin.row - 0; // Convert the string corresponding to a row to a number.
                     for (j; j <= td.row; j++) {
                         console.log("i = " + i + " j = " + j);
                         var cellTmp = view.model.getCell(idxToCol(i), j);
+                        cellTmp.setOriginalBackgroundColor(cellTmp.getBackgroundColor());
                         cellTmp.setBackgroundColor("#CCFFFF");
+                        this_.listSelectedCells.push(cellTmp);
                     }
                 }
                 var form = cell.getFormula();

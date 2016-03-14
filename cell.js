@@ -10,6 +10,7 @@ function Cell(model) {
     this.underline = false;
     this.backgroundColored = false;
     this.backgroundColor = "";
+    this.originalBackgroundColor = "";
     this.textColor = "";
     this.borderStyle = "";
 }
@@ -114,6 +115,13 @@ Cell.prototype = {
     },
     getBackgroundColor: function () {
         return this.backgroundColor;
+    },
+    setOriginalBackgroundColor : function (color) {
+        this.originalBackgroundColor = color;
+        this.update(new Set());
+    },
+    getOriginalBackgroundColor : function () {
+        return this.originalBackgroundColor;
     },
     setTextColor: function (color) {
         this.textColor = color;
